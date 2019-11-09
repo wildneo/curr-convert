@@ -37,7 +37,11 @@ class CurrencyFirst extends React.Component {
     const { from } = this.props;
 
     return (
-      <CurrencyInput currency={from} onChange={this.handleChange} onClick={this.handleClick} />
+      <CurrencyInput
+        currency={from}
+        onAmountChange={this.handleChange}
+        onCurrencyChange={this.handleClick}
+      />
     )
   }
 }

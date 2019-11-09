@@ -1,38 +1,25 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Dropdown, Input } from 'semantic-ui-react';
-import { currencySelector } from '../selectors';
+import { Input } from 'semantic-ui-react';
+import CurrencyDropdown from './CurrencyDropdown';
 
-const mapStateToProps = (state) => {
-  const currencies = currencySelector(state);
-  console.log(currencies);
-  return { currencies };
-};
-
-class CurrencyInput extends React.Component {
+export default class CurrencyInput extends React.Component {
   render() {
-    const { currency, currencies, onChange, onClick } = this.props;
+    const { currency, onAmountChange, onCurrencyChange } = this.props;
 
     return (
       <Input
-        maxLength={12}
-        onChange={onChange}
-        placeholder="Amount"
+        onChange={onAmountChange}
         value={currency.amount}
+        placeholder="Amount"
         fluid
+        maxLength={12}
         action={
-          <Dropdown
-            onChange={onClick}
-            button
-            scrolling
+          <CurrencyDropdown
+            onChange={onCurrencyChange}
             text={currency.code}
-            options={currencies}
-            style={{ position: 'initial' }}
           />
         }
       />
     )
   }
 }
-
-export default connect(mapStateToProps)(CurrencyInput);

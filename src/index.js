@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import reducers from './reducers';
-import { fetchCurrencies, fetchConverted } from './actions';
+import { fetchCurrencies } from './actions';
 import App from './components/App';
 import 'semantic-ui-css/semantic.min.css';
 import './index.css';
@@ -23,7 +23,6 @@ const store = createStore(
 );
 
 store.dispatch(fetchCurrencies());
-// store.dispatch(fetchConverted('USD', 'RUB'));
 
 ReactDOM.render(
   <Provider store={store}>

@@ -2,74 +2,58 @@ import axios from 'axios';
 import { createAction } from 'redux-actions';
 import routes from '../routes';
 
+const INIT_BASE = 'USD';
+const INIT_QUOTE = 'RUB';
+const INIT_AMOUNT = 100;
+
 export const fetchCurrenciesRequest = createAction('FETCH_CURRENCIES_REQUEST');
 export const fetchCurrenciesSuccess = createAction('FETCH_CURRENCIES_SUCCESS');
 export const fetchCurrenciesFailure = createAction('FETCH_CURRENCIES_FAILURE');
 
-export const fetchFirstRateRequest = createAction('FETCH_FIRST_RATE_REQUEST');
-export const fetchFirstRateSuccess = createAction('FETCH_FIRST_RATE_SUCCESS');
-export const fetchFirstRateFailure = createAction('FETCH_FIRST_RATE_FAILURE');
+export const fetchConvertedRequest = createAction('FETCH_CONVERTED_REQUEST');
+export const fetchConvertedSuccess = createAction('FETCH_CONVERTED_SUCCESS');
+export const fetchConvertedFailure = createAction('FETCH_CONVERTED_FAILURE');
 
-export const fetchSecondRateRequest = createAction('FETCH_SECOND_RATE_REQUEST');
-export const fetchSecondRateSuccess = createAction('FETCH_SECOND_RATE_SUCCESS');
-export const fetchSecondRateFailure = createAction('FETCH_SECOND_RATE_FAILURE');
-
-export const setFirstCurrency = createAction('SET_FIRST_CURRENCY');
-export const setSecondCurrency = createAction('SET_SECOND_CURRENCY');
-export const calculateFirst = createAction('CALCULATE_FIRST');
-export const calculateSecond = createAction('CALCULATE_SECOND');
+export const setBaseCurrency = createAction('SET_BASE_CURRENCY');
+export const setQuoteCurrency = createAction('SET_QUOTE_CURRENCY');
 
 export const setFirstAmount = createAction('SET_FIRST_AMOUNT');
 export const setSecondAmount = createAction('SET_SECOND_AMOUNT');
 
-export const fetchCurrencies = (currencies) => async (dispach) => {
+export const switchInputs = createAction('SWITCH_INPUTS');
+
+
+export const fetchCurrencies = () => async (dispach) => {
   dispach(fetchCurrenciesRequest());
   try {
-    const url = routes.listUrl({ currencies });
-    const response = await axios.request(url);
-    console.log(response);
-    dispach(fetchCurrenciesSuccess({ ...response.data }));
+    const listUrl = routes.listUrl();
+    const convertUrl = routes.convertUrl(INIT_BASE, INIT_QUOTE);
+    const listResponse = await axios.request(listUrl);
+    const { data: { amount: rate } } = await axios.request(convertUrl);
+    console.log(listUrl);
+    dispach(fetchCurrenciesSuccess({
+      ...listResponse.data,
+      convert: {
+        base: INIT_BASE,
+        quote: INIT_QUOTE,
+        startAmount: INIT_AMOUNT,
+        rate,
+      },
+    }));
   } catch (err) {
     dispach(fetchCurrenciesFailure());
     throw err;
   }
 };
 
-export const fetchFirstRate = (from, to) => async (dispach) => {
-  dispach(fetchFirstRateRequest());
+export const fetchConverted = (from, to) => async (dispach) => {
+  dispach(fetchConvertedRequest());
   try {
     const url = routes.convertUrl(from, to);
-    const response = await axios.request(url);
-    console.log(response);
-    dispach(fetchFirstRateSuccess({ ...response.data }));
+    const { data: { amount: rate, time } } = await axios.request(url);
+    dispach(fetchConvertedSuccess({ rate, time }));
   } catch (err) {
-    dispach(fetchFirstRateFailure());
+    dispach(fetchConvertedFailure());
     throw err;
   }
 };
-
-export const fetchSecondRate = (from, to) => async (dispach) => {
-  dispach(fetchSecondRateRequest());
-  try {
-    const url = routes.convertUrl(from, to);
-    const response = await axios.request(url);
-    console.log(response);
-    dispach(fetchSecondRateSuccess({ ...response.data }));
-  } catch (err) {
-    dispach(fetchSecondRateFailure());
-    throw err;
-  }
-};
-
-// export const fetchRates = (base) => async (dispach) => {
-//   dispach(fetchRatesRequest());
-//   try {
-//     const url = routes.ratesUrl({ base });
-//     const response = await axios.request(url);
-//     console.log(response);
-//     dispach(fetchRatesSuccess({ ...response.data }));
-//   } catch (err) {
-//     dispach(fetchRatesFailure());
-//     throw err;
-//   }
-// };

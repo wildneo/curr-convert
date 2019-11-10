@@ -4,14 +4,13 @@ const authorization = `Bearer ${key}`;
 
 
 export default {
-  listUrl: (params) => ({
+  listUrl: () => ({
     baseURL: host,
     method: 'get',
     url: 'list',
     headers: {
       authorization,
     },
-    params,
   }),
   ratesUrl: (params) => ({
     baseURL: host,

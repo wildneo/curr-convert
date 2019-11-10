@@ -10,35 +10,30 @@ const mapStateToProps = (state) => {
 };
 
 const actionsList = {
-  calculateSecond: actions.calculateSecond,
-  fetchSecondRate: actions.fetchSecondRate,
-  setFirstCurrency: actions.setFirstCurrency,
+  fetchConverted: actions.fetchConverted,
+  setBaseCurrency: actions.setBaseCurrency,
   setFirstAmount: actions.setFirstAmount,
 };
 
 class CurrencyFirst extends React.Component {
   handleChange = (e, { value }) => {
-    const { calculateSecond } = this.props;
-    calculateSecond({ value });
+    const { setFirstAmount } = this.props;
+    setFirstAmount({ value });
   }
 
   handleClick = (e, { value }) => {
-    const { setFirstCurrency, fetchSecondRate, from, to } = this.props;
-    setFirstCurrency({ value });
-    fetchSecondRate(from.code, to.code);
-  }
-
-  componentDidMount() {
-    const { fetchSecondRate, from, to } = this.props;
-    fetchSecondRate(from.code, to.code);
+    const { setBaseCurrency, fetchConverted, quote } = this.props;
+    setBaseCurrency({ value });
+    fetchConverted(value, quote);
   }
 
   render() {
-    const { from } = this.props;
+    const { base, firstAmount } = this.props;
 
     return (
       <CurrencyInput
-        currency={from}
+        text={base}
+        amount={firstAmount}
         onAmountChange={this.handleChange}
         onCurrencyChange={this.handleClick}
       />

@@ -1,13 +1,14 @@
 import { handleActions } from 'redux-actions';
+import { floor } from 'lodash';
 import * as actions from '../actions';
 
 const defaultState = {
   mode: 'first',
-  firstAmount: '',
-  secondAmount: '',
-  base: '',
-  quote: '',
-  rate: '',
+  firstAmount: '100',
+  secondAmount: '200',
+  base: 'USD',
+  quote: 'RUB',
+  rate: 2,
 };
 
 export default handleActions({
@@ -32,8 +33,8 @@ export default handleActions({
     const oppositeRate = 1 / rate;
 
     const mapping = {
-      first: { secondAmount: firstAmount * rate },
-      second: { firstAmount: secondAmount * oppositeRate },
+      first: { secondAmount: floor(firstAmount * rate, 2) },
+      second: { firstAmount: floor(secondAmount * oppositeRate, 2) },
     };
 
     return {
@@ -58,7 +59,7 @@ export default handleActions({
   [actions.setFirstAmount]: (state, { payload }) => {
     const { value: firstAmount } = payload;
     const { rate } = state;
-    const secondAmount = firstAmount * rate;
+    const secondAmount = floor(firstAmount * rate, 2);
 
     return {
       ...state,
@@ -71,7 +72,7 @@ export default handleActions({
   [actions.setSecondAmount]: (state, { payload }) => {
     const { value: secondAmount } = payload;
     const { rate } = state;
-    const firstAmount = secondAmount * (1 / rate);
+    const firstAmount = floor(secondAmount * (1 / rate), 2);
 
     return {
       ...state,

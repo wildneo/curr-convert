@@ -30,7 +30,6 @@ export const fetchCurrencies = () => async (dispach) => {
     const convertUrl = routes.convertUrl(INIT_BASE, INIT_QUOTE);
     const listResponse = await axios.request(listUrl);
     const { data: { amount: rate } } = await axios.request(convertUrl);
-    console.log(listUrl);
     dispach(fetchCurrenciesSuccess({
       ...listResponse.data,
       convert: {

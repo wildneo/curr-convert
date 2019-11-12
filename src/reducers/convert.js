@@ -15,7 +15,7 @@ export default handleActions({
   [actions.fetchCurrenciesSuccess]: (state, { payload }) => {
     const { base, quote, startAmount, rate } = payload.convert;
     const firstAmount = startAmount;
-    const secondAmount = startAmount * rate;
+    const secondAmount = floor(startAmount * rate, 2);
 
     return {
       ...state,

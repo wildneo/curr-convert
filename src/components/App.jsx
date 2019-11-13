@@ -1,53 +1,24 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Divider, Segment, Grid, Container, Icon } from 'semantic-ui-react';
-import CurrencySecond from './CurrencySecond';
-import CurrencyFirst from './CurrencyFirst';
-import * as actions from '../actions';
+import { Grid, Header, Container, Icon } from 'semantic-ui-react';
+import ConvertWidget from './ConvertWidget';
 
-const mapStateToProps = ({ fetchCurrenciesState }) => ({
-  fetchCurrenciesState
-});
-
-const actionsList = {
-  switchInputs: actions.switchInputs,
-}
-
-class App extends React.Component {
-  handleClick = () => {
-    const { switchInputs } = this.props;
-    switchInputs();
-  }
-
+export default class App extends React.Component {
   render() {
-    const { fetchCurrenciesState } = this.props;
-    const isFetching = fetchCurrenciesState === 'requested';
-
     return (
-      <Container text>
-        <Segment loading={isFetching}>
-          <Grid columns="equal" stackable>
-            <Grid.Column>
-              <CurrencyFirst />
-            </Grid.Column>
-            <Grid.Column width="one">
-              <Divider vertical>
-                <Icon
-                  onClick={this.handleClick}
-                  link
-                  name="refresh"
-                />
-              </Divider>
-            </Grid.Column>
-            <Grid.Column>
-              <CurrencySecond />
-            </Grid.Column>
-          </Grid>
-        </Segment>
+      <Container>
+        <Grid style={{ height: "80vh" }} textAlign="center" verticalAlign="middle">
+          <Grid.Column>
+              <Header as="h2" color="teal">
+                <Icon name="money bill alternate outline" /> Currency Converter
+              </Header>
+            <ConvertWidget />
+            <p>2019 Currency converter widget</p>
+            <Icon name="github" />
+            <a href="https://github.com/wildneo/curr-convert"> Source Code</a>
+
+          </Grid.Column>
+        </Grid>
       </Container>
     );
   }
 };
-
-
-export default connect(mapStateToProps, actionsList)(App);

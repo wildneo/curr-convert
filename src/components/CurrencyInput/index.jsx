@@ -1,7 +1,7 @@
 import React from 'react';
 import { Input } from 'semantic-ui-react';
 import CurrencyDropdown from './CurrencyDropdown';
-import mask from '../utils';
+import mask from '../../utils';
 
 export default class CurrencyInput extends React.Component {
   handleChange = (event, data) => {
@@ -28,7 +28,7 @@ export default class CurrencyInput extends React.Component {
         action={
           <CurrencyDropdown
             onChange={onCurrencyChange}
-            text={text}
+            value={text}
           />
         }
       />

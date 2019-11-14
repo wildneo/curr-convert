@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Divider, Segment, Grid, Container, Icon } from 'semantic-ui-react';
+import { Divider, Segment, Grid, Icon } from 'semantic-ui-react';
 import CurrencySecond from './CurrencySecond';
 import CurrencyFirst from './CurrencyFirst';
 import * as actions from '../actions';

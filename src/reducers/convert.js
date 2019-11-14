@@ -84,11 +84,11 @@ export default handleActions({
 
   [actions.switchInputs]: (state) => {
     const { mode, rate } = state;
-    const newRate = 1 / rate;
+    const oppositeRate = 1 / rate;
   
     const mapping = {
-      first: { secondAmount: state.firstAmount * newRate },
-      second: { firstAmount: state.secondAmount * rate },
+      first: { secondAmount: floor(state.firstAmount * oppositeRate, 2) },
+      second: { firstAmount: floor(state.secondAmount * rate, 2) },
     };
 
     return {
@@ -96,7 +96,7 @@ export default handleActions({
       ...mapping[mode],
       base: state.quote,
       quote: state.base,
-      rate: newRate,
+      rate: oppositeRate,
     };
   },
 }, defaultState);

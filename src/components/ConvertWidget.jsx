@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Divider, Segment, Grid, Icon } from 'semantic-ui-react';
+import { Divider, Segment, Grid, Icon, Message } from 'semantic-ui-react';
 import CurrencySecond from './CurrencySecond';
 import CurrencyFirst from './CurrencyFirst';
 import * as actions from '../actions';
@@ -19,18 +19,23 @@ class ConvertWidget extends React.Component {
     switchInputs();
   }
 
-  render() {
+  renderErrMsg() {
+    return (
+      <Message negative>
+        <Message.Header>
+          Sorry!
+        </Message.Header>
+        <p>Service is not available now, please try again later.</p>
+      </Message>
+    );
+  }
+
+  renderWidget() {
     const { fetchCurrenciesState } = this.props;
     const isFetching = fetchCurrenciesState === 'requested';
 
     return (
-      <Segment
-        loading={isFetching}
-        // inverted
-        // color="teal"
-        // basic
-        // style={{ background: 'white' }}
-      >
+      <Segment loading={isFetching}>
         <Grid columns="equal" stackable>
           <Grid.Column>
             <CurrencyFirst />
@@ -50,6 +55,15 @@ class ConvertWidget extends React.Component {
         </Grid>
       </Segment>
     );
+  }
+
+  render() {
+    const { fetchCurrenciesState } = this.props;
+    const isFailed = fetchCurrenciesState === 'failed';
+
+    return isFailed
+      ? this.renderErrMsg()
+      : this.renderWidget();
   }
 };
 

@@ -2,9 +2,9 @@ import axios from 'axios';
 import { createAction } from 'redux-actions';
 import routes from '../routes';
 
-const INIT_BASE = 'USD';
-const INIT_QUOTE = 'RUB';
-const INIT_AMOUNT = 100;
+const INIT_BASE = process.env.REACT_APP_INIT_BASE;
+const INIT_QUOTE = process.env.REACT_APP_INIT_QUOTE;
+const INIT_AMOUNT = process.env.REACT_APP_INIT_AMOUNT;
 
 export const fetchCurrenciesRequest = createAction('FETCH_CURRENCIES_REQUEST');
 export const fetchCurrenciesSuccess = createAction('FETCH_CURRENCIES_SUCCESS');
@@ -48,8 +48,8 @@ export const fetchCurrencies = () => async (dispach) => {
 export const fetchConverted = (from, to) => async (dispach) => {
   dispach(fetchConvertedRequest());
   try {
-    const url = routes.convertUrl(from, to);
-    const { data: { amount: rate, time } } = await axios.request(url);
+    const convertUrl = routes.convertUrl(from, to);
+    const { data: { amount: rate, time } } = await axios.request(convertUrl);
     dispach(fetchConvertedSuccess({ rate, time }));
   } catch (err) {
     dispach(fetchConvertedFailure());

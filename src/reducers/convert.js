@@ -4,11 +4,11 @@ import * as actions from '../actions';
 
 const defaultState = {
   mode: 'first',
-  firstAmount: '100',
-  secondAmount: '200',
-  base: 'USD',
-  quote: 'RUB',
-  rate: 2,
+  firstAmount: '',
+  secondAmount: '',
+  base: '',
+  quote: '',
+  rate: 1,
 };
 
 export default handleActions({

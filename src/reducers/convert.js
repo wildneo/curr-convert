@@ -8,7 +8,7 @@ export const defaultState = {
   base: INIT_BASE,
   quote: INIT_QUOTE,
   firstAmount: INIT_AMOUNT,
-  secondAmount: 0,
+  secondAmount: INIT_AMOUNT,
   rate: 1,
 };
 

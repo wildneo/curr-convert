@@ -24,6 +24,10 @@ export const fetchConverted = (from, to) => async (dispach) => {
   try {
     const convertUrl = routes.convertUrl(from, to);
     const { data: { amount: rate } } = await axios.request(convertUrl);
+    // TODO:
+    // Как оказалось, сервер может ответить значением amount: 0.
+    // Стоит добавить проверку на ноль и наверное, кидать исключение,
+    // пока не придкмал как с этим быть.
     dispach(fetchConvertedSuccess({ rate }));
   } catch (err) {
     dispach(fetchConvertedFailure());

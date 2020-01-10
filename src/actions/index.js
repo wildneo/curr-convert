@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { createAction } from 'redux-actions';
-import { INIT_BASE, INIT_QUOTE, INIT_AMOUNT } from '../consts';
+import { INIT_BASE, INIT_QUOTE } from '../consts';
 import routes from '../routes';
 
 export const fetchCurrenciesRequest = createAction('FETCH_CURRENCIES_REQUEST');
@@ -19,37 +19,27 @@ export const setSecondAmount = createAction('SET_SECOND_AMOUNT');
 
 export const switchInputs = createAction('SWITCH_INPUTS');
 
+export const fetchConverted = (from, to) => async (dispach) => {
+  dispach(fetchConvertedRequest());
+  try {
+    const convertUrl = routes.convertUrl(from, to);
+    const { data: { amount: rate } } = await axios.request(convertUrl);
+    dispach(fetchConvertedSuccess({ rate }));
+  } catch (err) {
+    dispach(fetchConvertedFailure());
+    throw err;
+  }
+};
 
 export const fetchCurrencies = () => async (dispach) => {
   dispach(fetchCurrenciesRequest());
   try {
     const listUrl = routes.listUrl();
-    const convertUrl = routes.convertUrl(INIT_BASE, INIT_QUOTE);
-    const listResponse = await axios.request(listUrl);
-    const { data: { amount: rate } } = await axios.request(convertUrl);
-    dispach(fetchCurrenciesSuccess({
-      ...listResponse.data,
-      convert: {
-        base: INIT_BASE,
-        quote: INIT_QUOTE,
-        startAmount: INIT_AMOUNT,
-        rate,
-      },
-    }));
+    const response = await axios.request(listUrl);
+    await dispach(fetchConverted(INIT_BASE, INIT_QUOTE));
+    dispach(fetchCurrenciesSuccess({ ...response.data }));
   } catch (err) {
     dispach(fetchCurrenciesFailure());
-    throw err;
-  }
-};
-
-export const fetchConverted = (from, to) => async (dispach) => {
-  dispach(fetchConvertedRequest());
-  try {
-    const convertUrl = routes.convertUrl(from, to);
-    const { data: { amount: rate, time } } = await axios.request(convertUrl);
-    dispach(fetchConvertedSuccess({ rate, time }));
-  } catch (err) {
-    dispach(fetchConvertedFailure());
     throw err;
   }
 };

@@ -1,10 +1,7 @@
 import axios from 'axios';
 import { createAction } from 'redux-actions';
+import { INIT_BASE, INIT_QUOTE, INIT_AMOUNT } from '../consts';
 import routes from '../routes';
-
-const INIT_BASE = process.env.REACT_APP_INIT_BASE;
-const INIT_QUOTE = process.env.REACT_APP_INIT_QUOTE;
-const INIT_AMOUNT = process.env.REACT_APP_INIT_AMOUNT;
 
 export const fetchCurrenciesRequest = createAction('FETCH_CURRENCIES_REQUEST');
 export const fetchCurrenciesSuccess = createAction('FETCH_CURRENCIES_SUCCESS');

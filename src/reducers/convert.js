@@ -2,7 +2,7 @@ import { handleActions } from 'redux-actions';
 import { floor } from 'lodash';
 import * as actions from '../actions';
 
-const defaultState = {
+export const defaultState = {
   mode: 'first',
   firstAmount: '',
   secondAmount: '',

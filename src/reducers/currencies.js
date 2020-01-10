@@ -2,7 +2,7 @@ import { handleActions } from 'redux-actions';
 import { keyBy } from 'lodash';
 import * as actions from '../actions';
 
-const defaultState = { byCode: {}, allCodes: [] };
+export const defaultState = { byCode: {}, allCodes: [] };
 
 export default handleActions({
   [actions.fetchCurrenciesSuccess]: (state, { payload }) => ({

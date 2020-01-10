@@ -1,32 +1,18 @@
 import { handleActions } from 'redux-actions';
 import { floor } from 'lodash';
+import { INIT_BASE, INIT_QUOTE, INIT_AMOUNT } from '../consts';
 import * as actions from '../actions';
 
 export const defaultState = {
   mode: 'first',
-  firstAmount: '',
-  secondAmount: '',
-  base: '',
-  quote: '',
+  base: INIT_BASE,
+  quote: INIT_QUOTE,
+  firstAmount: INIT_AMOUNT,
+  secondAmount: 0,
   rate: 1,
 };
 
 export default handleActions({
-  [actions.fetchCurrenciesSuccess]: (state, { payload }) => {
-    const { base, quote, startAmount, rate } = payload.convert;
-    const firstAmount = startAmount;
-    const secondAmount = floor(startAmount * rate, 2);
-
-    return {
-      ...state,
-      firstAmount,
-      secondAmount,
-      base,
-      quote,
-      rate,
-    };
-  },
-
   [actions.fetchConvertedSuccess]: (state, { payload }) => {
     const { rate } = payload;
     const { firstAmount, secondAmount, mode } = state;

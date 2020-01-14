@@ -17,7 +17,7 @@ describe('fetchConverted', () => {
   
     return axios.request
       .mockResolvedValueOnce({ data })
-      .mockRejectedValueOnce();
+      .mockRejectedValue();
   };
   
   test('Request success', () => {

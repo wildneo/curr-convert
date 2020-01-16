@@ -19,6 +19,9 @@ export const setSecondAmount = createAction('SET_SECOND_AMOUNT');
 
 export const switchInputs = createAction('SWITCH_INPUTS');
 
+export const setSearchQuery = createAction('SET_SEARCH_QUERY');
+export const clearSearchQuery = createAction('CLEAR_SEARCH_QUERY');
+
 export const fetchConverted = (from, to) => async (dispach) => {
   dispach(fetchConvertedRequest());
   try {

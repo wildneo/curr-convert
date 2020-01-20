@@ -32,7 +32,7 @@ class CurrencySecond extends React.Component {
 
     return (
       <CurrencyInput
-        text={quote}
+        activeCode={quote}
         amount={secondAmount}
         onAmountChange={this.handleChange}
         onCurrencyChange={this.handleClick}

@@ -32,7 +32,7 @@ class CurrencyFirst extends React.Component {
 
     return (
       <CurrencyInput
-        text={base}
+        activeCode={base}
         amount={firstAmount}
         onAmountChange={this.handleChange}
         onCurrencyChange={this.handleClick}
